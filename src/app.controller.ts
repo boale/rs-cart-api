@@ -23,7 +23,7 @@ export class AppController {
       statusCode: HttpStatus.OK,
       message: 'OK',
       data: {
-        token,
+        ...token,
       },
     };
   }
