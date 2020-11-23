@@ -6,7 +6,7 @@ import { Cart } from '../models';
 
 @Injectable()
 export class CartService {
-  userCarts: Record<string, Cart> = {};
+  private userCarts: Record<string, Cart> = {};
 
   findByUserId(userId: string): Cart {
     return this.userCarts[ userId ];
