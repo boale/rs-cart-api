@@ -4,18 +4,12 @@ import { v4 } from 'uuid';
 
 import { Cart } from '../models';
 
-import { UsersService } from '../../users';
-
 @Injectable()
 export class CartService {
-  userCarts: Record<string, Cart>;
-
-  constructor(private userService: UsersService) {
-    this.userCarts = {};
-  }
+  userCarts: Record<string, Cart> = {};
 
   findByUserId(userId: string): Cart {
-    return this.userCarts[userId];
+    return this.userCarts[ userId ];
   }
 
   createByUserId(userId: string) {
@@ -25,12 +19,12 @@ export class CartService {
       items: [],
     };
 
-    this.userCarts[userId] = userCart;
+    this.userCarts[ userId ] = userCart;
 
     return userCart;
   }
 
-  findOrCreateByUserId(userId: string) {
+  findOrCreateByUserId(userId: string): Cart {
     const userCart = this.findByUserId(userId);
 
     if (userCart) {
@@ -40,11 +34,21 @@ export class CartService {
     return this.createByUserId(userId);
   }
 
-  updateByUserId(userId, data) {
+  updateByUserId(userId: string, { items }: Cart): Cart {
+    const { id, ...rest } = this.findOrCreateByUserId(userId);
 
+    const updatedCart = {
+      id,
+      ...rest,
+      items: [ ...items ],
+    }
+
+    this.userCarts[ userId ] = { ...updatedCart };
+
+    return { ...updatedCart };
   }
 
-  removeByUserId(userId) {
+  removeByUserId(userId): void {
     this.userCarts[ userId ] = null;
   }
 
