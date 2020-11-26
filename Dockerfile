@@ -1,5 +1,5 @@
 # Base
-FROM node:12-alpine as base
+FROM node:12-alpine AS base
 
 WORKDIR /app
 
@@ -10,14 +10,14 @@ COPY package*.json ./
 RUN npm install
 
 # Build
-FROM dependencies as build
+FROM dependencies AS build
 
 WORKDIR /app
 COPY . .
 RUN npm run build
 
 # Application
-FROM node:12-alpine as application
+FROM node:12-alpine AS application
 
 COPY --from=build /app/package*.json ./
 RUN npm install --only=production
