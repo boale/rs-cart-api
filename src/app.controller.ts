@@ -1,12 +1,28 @@
-import { Controller, Get, Request, Post, UseGuards, HttpStatus } from '@nestjs/common';
-import { LocalAuthGuard, AuthService, JwtAuthGuard, BasicAuthGuard } from './auth';
+import {
+  Controller,
+  Get,
+  Request,
+  Post,
+  UseGuards,
+  HttpStatus,
+} from '@nestjs/common';
+
+import {
+  // JwtAuthGuard,
+  LocalAuthGuard,
+  AuthService,
+  BasicAuthGuard,
+} from './auth';
 
 @Controller()
 export class AppController {
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+  ) {}
 
-  @Get('ping')
+
+  @Get([ '', 'ping' ])
   healthCheck(): any {
     return {
       statusCode: HttpStatus.OK,
