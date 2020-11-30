@@ -13,8 +13,7 @@ DOCKER_LATEST_TAG=latest
 # Logout from Docker
 docker logout
 # Login in AWS container registry with your AWS credentials
-aws ecr get-login-password --profile $PROFILE --region $REGION | docker login --username AWS --password-stdin
-
+aws ecr get-login-password --profile $PROFILE --region $REGION | docker login --username AWS --password-stdin $AWS_DOCKER_REGISTRY_URL
 # Build Docker image
 docker build -f "$(dirname "$0")/../../Dockerfiles/Dockerfile" -t $DOCKER_APP_NAME:"$DOCKER_TAG" -t $DOCKER_APP_NAME:$DOCKER_LATEST_TAG "$(dirname "$0")/../../"
 
