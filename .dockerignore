@@ -1,6 +1,0 @@
-dist/
-node_modules/
-.elasticbeanstalk/
-scripts/
-test/
-Dockerfiles/

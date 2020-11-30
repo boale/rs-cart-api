@@ -44,6 +44,7 @@ export class AppController {
     };
   }
 
+  // @UseGuards(JwtAuthGuard)
   @UseGuards(BasicAuthGuard)
   @Get('api/profile')
   async getProfile(@Request() req) {
