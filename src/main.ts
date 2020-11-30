@@ -9,11 +9,9 @@ const port = process.env.PORT || 3000;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // app.enableCors({
-  //   origin: [
-  //     // list of allowed origins
-  //   ],
-  // });
+  app.enableCors({
+    origin: '*',
+  });
   app.use(helmet());
 
   await app.listen(port);
