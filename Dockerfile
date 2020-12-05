@@ -1,4 +1,4 @@
-FROM node:12.16.3 as build
+FROM node:12-alpine as build
 RUN mkdir -p rs-cart-api
 WORKDIR ./rs-cart-api
 COPY src \
