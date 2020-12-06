@@ -1,9 +1,13 @@
+# dev dependencies packages
+.prettierrc
+.eslintrc.js
+
 # compiled output
 /dist
 /node_modules
 yarn.lock
 
-# Logs
+# logs
 logs
 *.log
 npm-debug.log*
@@ -14,7 +18,8 @@ lerna-debug.log*
 # OS
 .DS_Store
 
-# Tests
+# tests
+/test
 /coverage
 /.nyc_output
 
@@ -27,13 +32,4 @@ lerna-debug.log*
 .settings/
 *.sublime-workspace
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
+/.elasticbeanstalk
