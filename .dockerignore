@@ -1,2 +1,7 @@
 dist
 node_modules
+test
+README.MD
+.git
+.gitignore
+.eslintrc.js
