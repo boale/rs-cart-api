@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "YOUR_AWS_ACCOUNT_ID.dkr.ecr.YOUR_AWS_REGION.amazonaws.com/YOUR_AWS_REGISTRY_NAME:latest",
+    "Name": "776899635594.dkr.ecr.eu-west-1.amazonaws.com/dmitryserediuk-cart-api:latest",
     "Update": "true"
   },
   "Ports": [
