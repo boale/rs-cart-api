@@ -1,1 +1,10 @@
+# Dependency directories
 node_modules
+
+# Compiled output
+dist
+test
+
+#logs
+logs
+*.log

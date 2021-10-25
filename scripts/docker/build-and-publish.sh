@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REGION=us-west-1
+REGION=eu-west-1
 AWS_ACCOUNT_ID=776899635594
 PROFILE=default
 #PROFILE=personalAccount
