@@ -1,0 +1,56 @@
+# For my testing!
+
+
+# These folders node_module  and  dist are not needed, because they will be creating on runtime of container
+/node_modules/
+/dist
+
+# Tests are not necessary
+/test
+
+# Configuration files for development are not necessary also
+.eslintrc.js
+.prettierrc
+
+# It has no business logic required by production app
+README.md
+.gitignore
+.git
+
+# Elastic Beanstalk Files
+.elasticbeanstalk
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
