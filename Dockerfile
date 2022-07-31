@@ -2,11 +2,11 @@ FROM node:16-alpine3.15
 
 COPY . ./
 WORKDIR /app
-RUN npm i --force
-RUN nest start
+RUN npm i 
+RUN npm run build
 USER node
 EXPOSE 4000
-CMD [ "npm", "run", "start:prod" ]
+ENTRYPOINT ["node", "dist/main.js"]
 
 
 # FROM node:16.13.1-alpine as base
