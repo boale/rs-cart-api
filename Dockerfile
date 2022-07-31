@@ -44,7 +44,7 @@ FROM node:16-alpine3.15 AS base
 FROM base as build
 WORKDIR /build
 COPY package*.json ./
-RUN npm i
+RUN npm i --force
 RUN npm audit fix --force
 COPY . .
 RUN npm run build && npm prune --production
