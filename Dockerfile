@@ -1,4 +1,4 @@
-FROM node:12.16.3
+FROM node:16-alpine3.15 AS base
 
 COPY . ./
 WORKDIR /app
@@ -37,8 +37,8 @@ ENTRYPOINT ["node", "dist/main.js"]
 
 
 
-# # 103 mb
-# FROM node:18.7.0-alpine as base
+# # # 103 mb
+# FROM node:16-alpine3.15 AS base
 
 # # Build layer
 # FROM base as build
