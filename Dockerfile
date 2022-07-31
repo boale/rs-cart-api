@@ -45,6 +45,7 @@ FROM base as build
 WORKDIR /build
 COPY package*.json ./
 RUN npm i
+RUN npm audit fix --force
 COPY . .
 RUN npm run build && npm prune --production
 
