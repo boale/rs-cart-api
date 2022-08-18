@@ -27,6 +27,7 @@
     "@nestjs/jwt": "^7.2.0",
     "@nestjs/passport": "^7.1.0",
     "@nestjs/platform-express": "^7.5.1",
+    "dockerfile_lint": "^0.3.4",
     "helmet": "^4.2.0",
     "passport": "^0.4.1",
     "passport-http": "^0.3.0",
