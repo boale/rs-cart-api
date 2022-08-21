@@ -1,0 +1,8 @@
+# node_modules will be installed during image build
+node_modules
+
+# dist folder will be generated from src folder during image build
+dist
+
+# test folder is not used during image build
+test
