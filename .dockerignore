@@ -1,0 +1,21 @@
+# node_modules folder is generated on execution of 'RUN npm install' command
+# no need to copy it
+node_modules
+
+# dist folder is generated on execution of 'RUN npm run build command'
+# no need to copy it
+dist
+
+# log files are not part of the applicatoin and only for troubleshooting
+logs
+*.log
+
+# Test folder only for test puropses
+test
+
+# Coverage directory only for testing purposes
+coverage
+
+#editors folders are not part of the application
+.idea
+.vscode
