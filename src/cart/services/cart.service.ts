@@ -6,10 +6,25 @@ import { Cart } from '../models';
 
 @Injectable()
 export class CartService {
-  private userCarts: Record<string, Cart> = {};
+  private userCarts: Record<string, Cart> = {
+    vladOstk: {
+      id: '00000000-0000-0000-0000-000000000000',
+      items: [
+        {
+          count: 3,
+          product: {
+            title: 'Cart product',
+            description: 'Cart description',
+            price: 9.99,
+            id: 'test123',
+          },
+        },
+      ],
+    },
+  };
 
   findByUserId(userId: string): Cart {
-    return this.userCarts[ userId ];
+    return this.userCarts['vladOstk'];
   }
 
   createByUserId(userId: string) {
@@ -19,7 +34,7 @@ export class CartService {
       items: [],
     };
 
-    this.userCarts[ userId ] = userCart;
+    this.userCarts[userId] = userCart;
 
     return userCart;
   }
@@ -40,16 +55,15 @@ export class CartService {
     const updatedCart = {
       id,
       ...rest,
-      items: [ ...items ],
-    }
+      items: [...items],
+    };
 
-    this.userCarts[ userId ] = { ...updatedCart };
+    this.userCarts[userId] = { ...updatedCart };
 
     return { ...updatedCart };
   }
 
   removeByUserId(userId): void {
-    this.userCarts[ userId ] = null;
+    this.userCarts[userId] = null;
   }
-
 }

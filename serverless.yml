@@ -1,0 +1,26 @@
+service: vlad-ostk-cart
+frameworkVersion: '3'
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+custom:
+  region: eu-west-1
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ${self:custom.region}
+  stage: dev
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
