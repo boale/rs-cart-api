@@ -1,0 +1,23 @@
+# Compiled output
+
+dist
+node_modules
+
+# Test directory
+
+test
+
+# Files that not needed for the application itself
+
+.eslintrc.js
+.gitignore
+
+README.md
+
+# IDEs
+
+.vscode
+
+# Git files
+
+.git
