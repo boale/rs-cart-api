@@ -28,6 +28,8 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+AWS EndPoint: https://wclgt1qh2c.execute-api.us-east-1.amazonaws.com/dev/
+
 ## Installation
 
 ```bash
