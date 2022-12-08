@@ -179,7 +179,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/kavi-db-integration-service/dev/1670524342049-2022-12-08T18:32:22.049Z/kavi-db-integration-service.zip"
+                "S3Key": "serverless/kavi-db-integration-service/dev/1670525484708-2022-12-08T18:51:24.708Z/kavi-db-integration-service.zip"
               },
               "Handler": "dist/main.handler",
               "Runtime": "nodejs14.x",
@@ -205,14 +205,14 @@
               "MainLogGroup"
             ]
           },
-          "MainLambdaVersionLyPga3Az5N0RTbGzmswQe5fLs66vkIzN7XR2VyGJgk": {
+          "MainLambdaVersionzQmETVsJkTRr2TxpoOyftU2QGtuFVnIAZ7QOK6SW80": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "MainLambdaFunction"
               },
-              "CodeSha256": "WC8plmdFX2EJJYxoQ0zrqraRMMj2mgYH7GymR3z0dkk="
+              "CodeSha256": "jqn1NqieGnakFEniIA7h2Bw32jIkH43pWFcYuP4x3I0="
             }
           },
           "ApiGatewayRestApi": {
@@ -337,7 +337,7 @@
               "MainLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1670524308522": {
+          "ApiGatewayDeployment1670525451744": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -400,7 +400,7 @@
           "MainLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "MainLambdaVersionLyPga3Az5N0RTbGzmswQe5fLs66vkIzN7XR2VyGJgk"
+              "Ref": "MainLambdaVersionzQmETVsJkTRr2TxpoOyftU2QGtuFVnIAZ7QOK6SW80"
             },
             "Export": {
               "Name": "sls-kavi-db-integration-service-dev-MainLambdaFunctionQualifiedArn"
@@ -548,7 +548,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "MainLambdaVersionLyPga3Az5N0RTbGzmswQe5fLs66vkIzN7XR2VyGJgk"
+        "versionLogicalId": "MainLambdaVersionzQmETVsJkTRr2TxpoOyftU2QGtuFVnIAZ7QOK6SW80"
       }
     },
     "configValidationMode": "warn",
@@ -570,7 +570,7 @@
     "artifact": "/Users/viktorkazacenko/Desktop/AWSCourse/api/rs-cart-api/.serverless/kavi-db-integration-service.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/kavi-db-integration-service/dev/1670524342049-2022-12-08T18:32:22.049Z",
+    "artifactDirectoryName": "serverless/kavi-db-integration-service/dev/1670525484708-2022-12-08T18:51:24.708Z",
     "artifact": "kavi-db-integration-service.zip"
   }
 }

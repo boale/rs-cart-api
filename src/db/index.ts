@@ -1,7 +1,7 @@
 import { Pool, Client } from 'pg';
 
 const config = {
-  user:  process.env.POSTGRE_DB_USERNAME,
+  user: process.env.POSTGRE_DB_USER_NAME,
   host: process.env.POSTGRE_HOST,
   database: process.env.POSTGRE_DB_NAME,
   password: process.env.POSTGRE_DB_PASSWORD,
