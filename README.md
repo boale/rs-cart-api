@@ -1,75 +1,107 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+5c6ebcfc-4dfd-11ed-bdc3-0242ac120002
+5c6ec0a8-4dfd-11ed-bdc3-0242ac120002
+5c6ec288-4dfd-11ed-bdc3-0242ac120002
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+aws dynamodb put-item --table-name products --item '{ "id": { "S": "5c6ebcfc-4dfd-11ed-bdc3-0242ac120002"}, "title": { "S": "BMW i3"}, "description": { "S": "No description"}, "price": { "N": "13302"}}'
+aws dynamodb put-item --table-name products --item '{ "id": { "S": "5c6ec0a8-4dfd-11ed-bdc3-0242ac120002"}, "title": { "S": "BMW i4"}, "description": { "S": "No description"}, "price": { "N": "3000"}}'
+aws dynamodb put-item --table-name products --item '{ "id": { "S": "5c6ec288-4dfd-11ed-bdc3-0242ac120002"}, "title": { "S": "BMW i5"}, "description": { "S": "No description"}, "price": { "N": "1000"}}'
 
-## Description
+aws dynamodb put-item --table-name stocks --item '{ "product_id": { "S": "5c6ebcfc-4dfd-11ed-bdc3-0242ac120002"}, "count": { "N": "100"}}'
+aws dynamodb put-item --table-name stocks --item '{ "product_id": { "S": "5c6ec0a8-4dfd-11ed-bdc3-0242ac120002"}, "count": { "N": "50"}}'
+aws dynamodb put-item --table-name stocks --item '{ "product_id": { "S": "5c6ec288-4dfd-11ed-bdc3-0242ac120002"}, "count": { "N": "0"}}'
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+# Serverless - AWS Node.js Typescript
 
-## Installation
+This project has been generated using the `aws-nodejs-typescript` template from the [Serverless framework](https://www.serverless.com/).
 
-```bash
-$ npm install
+For detailed instructions, please refer to the [documentation](https://www.serverless.com/framework/docs/providers/aws/).
+
+## Installation/deployment instructions
+
+Depending on your preferred package manager, follow the instructions below to deploy your project.
+
+> **Requirements**: NodeJS `lts/fermium (v.14.15.0)`. If you're using [nvm](https://github.com/nvm-sh/nvm), run `nvm use` to ensure you're using the same Node version in local and in your lambda's runtime.
+
+### Using NPM
+
+- Run `npm i` to install the project dependencies
+- Run `npx sls deploy` to deploy this stack to AWS
+
+### Using Yarn
+
+- Run `yarn` to install the project dependencies
+- Run `yarn sls deploy` to deploy this stack to AWS
+
+## Test your service
+
+This template contains a single lambda function triggered by an HTTP request made on the provisioned API Gateway REST API `/hello` route with `POST` method. The request body must be provided as `application/json`. The body structure is tested by API Gateway against `src/functions/hello/schema.ts` JSON-Schema definition: it must contain the `name` property.
+
+- requesting any other path than `/hello` with any other method than `POST` will result in API Gateway returning a `403` HTTP error code
+- sending a `POST` request to `/hello` with a payload **not** containing a string property named `name` will result in API Gateway returning a `400` HTTP error code
+- sending a `POST` request to `/hello` with a payload containing a string property named `name` will result in API Gateway returning a `200` HTTP status code with a message saluting the provided name and the detailed event processed by the lambda
+
+> :warning: As is, this template, once deployed, opens a **public** endpoint within your AWS account resources. Anybody with the URL can actively execute the API Gateway endpoint and the corresponding lambda. You should protect this endpoint with the authentication method of your choice.
+
+### Locally
+
+In order to test the hello function locally, run the following command:
+
+- `npx sls invoke local -f hello --path src/functions/hello/mock.json` if you're using NPM
+- `yarn sls invoke local -f hello --path src/functions/hello/mock.json` if you're using Yarn
+
+Check the [sls invoke local command documentation](https://www.serverless.com/framework/docs/providers/aws/cli-reference/invoke-local/) for more information.
+
+### Remotely
+
+Copy and replace your `url` - found in Serverless `deploy` command output - and `name` parameter in the following `curl` command in your terminal or in Postman to test your newly deployed application.
+
+```
+curl --location --request POST 'https://myApiEndpoint/dev/hello' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Frederic"
+}'
 ```
 
-## Running the app
+## Template features
 
-```bash
-# development
-$ npm run start
+### Project structure
 
-# watch mode
-$ npm run start:dev
+The project code base is mainly located within the `src` folder. This folder is divided in:
 
-# production mode
-$ npm run start:prod
+- `functions` - containing code base and configuration for your lambda functions
+- `libs` - containing shared code base between your lambdas
+
+```
+.
+├── src
+│   ├── functions               # Lambda configuration and source code folder
+│   │   ├── hello
+│   │   │   ├── handler.ts      # `Hello` lambda source code
+│   │   │   ├── index.ts        # `Hello` lambda Serverless configuration
+│   │   │   ├── mock.json       # `Hello` lambda input parameter, if any, for local invocation
+│   │   │   └── schema.ts       # `Hello` lambda input event JSON-Schema
+│   │   │
+│   │   └── index.ts            # Import/export of all lambda configurations
+│   │
+│   └── libs                    # Lambda shared code
+│       └── apiGateway.ts       # API Gateway specific helpers
+│       └── handlerResolver.ts  # Sharable library for resolving lambda handlers
+│       └── lambda.ts           # Lambda middleware
+│
+├── package.json
+├── serverless.ts               # Serverless service file
+├── tsconfig.json               # Typescript compiler configuration
+├── tsconfig.paths.json         # Typescript paths
+└── webpack.config.js           # Webpack configuration
 ```
 
-## Test
+### 3rd party libraries
 
-```bash
-# unit tests
-$ npm run test
+- [json-schema-to-ts](https://github.com/ThomasAribart/json-schema-to-ts) - uses JSON-Schema definitions used by API Gateway for HTTP request validation to statically generate TypeScript types in your lambda's handler code base
+- [middy](https://github.com/middyjs/middy) - middleware engine for Node.Js lambda. This template uses [http-json-body-parser](https://github.com/middyjs/middy/tree/master/packages/http-json-body-parser) to convert API Gateway `event.body` property, originally passed as a stringified JSON, to its corresponding parsed object
+- [@serverless/typescript](https://github.com/serverless/typescript) - provides up-to-date TypeScript definitions for your `serverless.ts` service file
 
-# e2e tests
-$ npm run test:e2e
+### Advanced usage
 
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-  Nest is [MIT licensed](LICENSE).
+Any tsconfig.json can be used, but if you do, set the environment variable `TS_NODE_CONFIG` for building the application, eg `TS_NODE_CONFIG=./tsconfig.app.json npx serverless webpack`
