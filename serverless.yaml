@@ -1,0 +1,32 @@
+service: cart-service
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+useDotenv: true
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-1
+  stage: dev
+  environment:
+    DB_HOST: ${env:DB_HOST}
+    DB_USER: ${env:DB_USER}
+    DB_PASS: ${env:DB_PASS}
+    DB_NAME: ${env:DB_NAME}
+    DB_PORT: ${env:DB_PORT}
+    PRODUCTS_LIST_URL: https://16zpz4tfm7.execute-api.eu-west-1.amazonaws.com/products
+
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          cors: true
+          method: ANY
+          path: /
+      - http:
+          cors: true
+          method: ANY
+          path: '{proxy+}'

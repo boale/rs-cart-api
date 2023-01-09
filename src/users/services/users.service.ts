@@ -3,26 +3,28 @@ import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
 
 import { User } from '../models';
+import { DatabaseService } from '../../db/db.service';
 
 @Injectable()
 export class UsersService {
-  private readonly users: Record<string, User>;
+  constructor(private readonly dataBase: DatabaseService) {}
 
-  constructor() {
-    this.users = {}
+  async findOne(userId: string) {
+    const user = await this.dataBase.db.query(
+      'select * from users where id=:userId',
+      { userId },
+    );
+    return user;
   }
 
-  findOne(userId: string): User {
-    return this.users[ userId ];
-  }
-
-  createOne({ name, password }: User): User {
+  async createOne({ name, password, email }: User): Promise<User> {
     const id = v4(v4());
-    const newUser = { id: name || id, name, password };
+    const newUser = { id, name, password, email: email ?? 'no@email' };
 
-    this.users[ id ] = newUser;
-
+    await this.dataBase.db.query(
+      'insert into users (id, username, password, email) values (:id, :name, :password, :email)',
+      newUser,
+    );
     return newUser;
   }
-
 }
