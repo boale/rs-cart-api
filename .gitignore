@@ -1,6 +1,9 @@
 # compiled output
 /dist
 /node_modules
+.env
+.onemorepass
+/.serverless
 
 # Logs
 logs
