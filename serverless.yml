@@ -1,0 +1,69 @@
+service: shop-aws-cart-service
+
+useDotenv: true
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment:
+    DB_HOST: ${env:DB_HOST}
+    DB_PORT: ${env:DB_PORT}
+    DB_USERNAME: ${env:DB_USERNAME}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${env:DB_NAME}
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action: 'lambda:InvokeFunction'
+      Resource: '*'
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+          cors: true
+      - http:
+          method: ANY
+          path: '{proxy+}'
+          cors: true
+
+custom:
+  serverless_offline:
+    allowCache: true
+    noTimeout: true
+    httpPort: 3000
+    lambdaPort: 3002
+# resources:
+#   Resources:
+#     CartDB:
+#       Type: AWS::RDS::DBInstance
+#       Properties:
+#         DBInstanceIdentifier: ajp-database
+#         Engine: postgres
+#         EngineVersion: 12.12
+#         AllocatedStorage: 20
+#         DBInstanceClass: db.t2.micro
+#         DBName: ${env:DB_NAME}
+#         VPCSecurityGroups:
+#           - Fn::GetAtt: [CartDBSecurityGroup, GroupId]
+#         BackupRetentionPeriod: 0
+#         DeletionProtection: false
+#         StorageEncrypted: false
+#         PubliclyAccessible: true
+#     CartDBSecurityGroup:
+#       Type: AWS::EC2::SecurityGroup
+#       Properties:
+#         GroupDescription: CartDB security group
+#         SecurityGroupIngress:
+#           - IpProtocol: tcp
+#             FromPort: 5432
+#             ToPort: 5432
+#             CidrIp: 0.0.0.0/0
