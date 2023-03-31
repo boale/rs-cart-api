@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 
-import * as helmet from 'helmet';
+import helmet from 'helmet';
+import serverlessExpress from '@vendia/serverless-express';
 
 import { AppModule } from './app.module';
 
@@ -15,6 +16,8 @@ async function bootstrap() {
   app.use(helmet());
 
   await app.listen(port);
+  const expressApp = app.getHttpAdapter().getInstance();
+  return serverlessExpress({ app: expressApp });
 }
 bootstrap().then(() => {
   console.log('App is running on %s port', port);
