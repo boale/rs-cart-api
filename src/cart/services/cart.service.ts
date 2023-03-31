@@ -3,6 +3,16 @@ import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
 
 import { Cart } from '../models';
+import {createConnectionClient} from "../../db/db_client";
+import {
+  CREATE_PRODUCT_IN_CART_QUERY,
+  GET_CART_ITEM_BY_PRODUCT_ID_QUERY,
+  GET_CART_ITEMS_LIST_QUERY,
+  GET_CART_LIST_QUERY,
+  UPDATE_COUNT_CART_BY_ID_QUERY
+} from "../../db/db-queries";
+
+let dbClient;
 
 @Injectable()
 export class CartService {
@@ -34,22 +44,56 @@ export class CartService {
     return this.createByUserId(userId);
   }
 
-  updateByUserId(userId: string, { items }: Cart): Cart {
-    const { id, ...rest } = this.findOrCreateByUserId(userId);
+  async updateByUserId(req, item) {
+    try {
+      const productId = item.product.product_id;
+      const userId = req.params.userId;
+      dbClient = await createConnectionClient();
 
-    const updatedCart = {
-      id,
-      ...rest,
-      items: [ ...items ],
+      const result = await dbClient.query(GET_CART_ITEM_BY_PRODUCT_ID_QUERY,[productId]);
+      const cart = await dbClient.query(GET_CART_LIST_QUERY, [userId]);
+
+      if (result.rows[0]) {
+        let count = +result.rows[0].count;
+        const digit = +result.rows[0].count < item.count ? ++count : --count;
+
+        console.log(digit)
+        const updated = await dbClient.query(UPDATE_COUNT_CART_BY_ID_QUERY, [digit, productId]);
+        const adjustedItem = updated.rows[0];
+        return { adjustedItem, cart };
+      }
+
+      const adjustedItem = await dbClient.query(CREATE_PRODUCT_IN_CART_QUERY, [cart.rows[0].id, productId, item.count]);
+      return { adjustedItem, cart } ;
+
+    } catch (err) {
+      console.log(err)
+      return err
     }
-
-    this.userCarts[ userId ] = { ...updatedCart };
-
-    return { ...updatedCart };
   }
 
   removeByUserId(userId): void {
     this.userCarts[ userId ] = null;
   }
 
+  async findListsByUserId(userId: string) {
+    try {
+      dbClient = await createConnectionClient();
+      const cart = await dbClient.query(GET_CART_LIST_QUERY, [userId]);
+
+      if (!cart) {
+        console.log('CART LIST did not found');
+        throw new Error(`Cart not found`)
+      }
+
+      const items = await dbClient.query(GET_CART_ITEMS_LIST_QUERY, [cart.rows[0].id]);
+
+      return { cart, items };
+    } catch (err) {
+      console.log('error on getting cart by id: ', err);
+      return {
+        myError: err,
+      };
+    }
+  }
 }
