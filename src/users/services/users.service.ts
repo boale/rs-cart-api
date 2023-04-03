@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
+import { client } from 'src/dbClient';
+
 import { v4 } from 'uuid';
 
 import { User } from '../models';
@@ -24,5 +26,8 @@ export class UsersService {
 
     return newUser;
   }
-
+  async getUsers() {
+    const result = await client('select * from users;');
+    return result;
+  }
 }
