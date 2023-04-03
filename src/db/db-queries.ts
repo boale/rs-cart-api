@@ -8,6 +8,8 @@ export const CREATE_PRODUCT_IN_CART_QUERY = `INSERT INTO cart_items(cart_id, pro
     VALUES($1,$2,$3)
     RETURNING *`;
 
+export const DELETE_CART_ITEM_QUERY = `DELETE FROM cart_items WHERE product_id = $1 RETURNING *`;
+
 export const CREATE_STOCK_QUERY = `INSERT INTO stock_service(product_id, count)
     VALUES($1,$2)
     RETURNING count`;

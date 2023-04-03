@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 import { Cart } from '../models';
 import {createConnectionClient} from "../../db/db_client";
 import {
-  CREATE_PRODUCT_IN_CART_QUERY,
+  CREATE_PRODUCT_IN_CART_QUERY, DELETE_CART_ITEM_QUERY,
   GET_CART_ITEM_BY_PRODUCT_ID_QUERY,
   GET_CART_ITEMS_LIST_QUERY,
   GET_CART_LIST_QUERY,
@@ -57,7 +57,6 @@ export class CartService {
         let count = +result.rows[0].count;
         const digit = +result.rows[0].count < item.count ? ++count : --count;
 
-        console.log(digit)
         const updated = await dbClient.query(UPDATE_COUNT_CART_BY_ID_QUERY, [digit, productId]);
         const adjustedItem = updated.rows[0];
         return { adjustedItem, cart };
@@ -72,8 +71,19 @@ export class CartService {
     }
   }
 
-  removeByUserId(userId): void {
-    this.userCarts[ userId ] = null;
+  async removeByUserId(productId) {
+    try {
+      dbClient = await createConnectionClient();
+      console.log("productId: ", productId)
+      const res = await dbClient.query(DELETE_CART_ITEM_QUERY, [productId]);
+
+      console.log("RES, ", res)
+    } catch (err) {
+      console.log('error on removing cart by product id: ', err);
+      return {
+        myError: err,
+      };
+    }
   }
 
   async findListsByUserId(userId: string) {

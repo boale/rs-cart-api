@@ -6,7 +6,7 @@ import { AppRequest, getUserIdFromRequest } from '../shared';
 import { calculateCartTotal } from './models-rules';
 import { CartService } from './services';
 
-@Controller('api/profile/cart/:userId')
+@Controller('api/profile/cart')
 export class CartController {
   constructor(
     private cartService: CartService,
@@ -15,7 +15,7 @@ export class CartController {
 
   // @UseGuards(JwtAuthGuard)
   // @UseGuards(BasicAuthGuard)
-  @Get()
+  @Get('/:userId')
   async findUserCart(@Req() req) {
     console.log("GET START")
 
@@ -37,7 +37,7 @@ export class CartController {
 
   // @UseGuards(JwtAuthGuard)
   // @UseGuards(BasicAuthGuard)
-  @Put()
+  @Put('/:userId')
   async updateUserCart(@Req() req, @Body() body) {
     console.log("PUT START")
     const item = body;
@@ -57,10 +57,10 @@ export class CartController {
 
   // @UseGuards(JwtAuthGuard)
   // @UseGuards(BasicAuthGuard)
-  @Delete()
-  clearUserCart(@Req() req: AppRequest) {
-    this.cartService.removeByUserId(getUserIdFromRequest(req));
-
+  @Delete('/:productId')
+  async clearUserCart(@Req() req) {
+    console.log("DELETE START")
+    await this.cartService.removeByUserId(req.params.productId);
     return {
       statusCode: HttpStatus.OK,
       message: 'OK',
