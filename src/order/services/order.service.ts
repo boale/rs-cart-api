@@ -36,4 +36,7 @@ export class OrderService {
       id: orderId,
     }
   }
+   async getOrders() {
+    return { many: `A lot of orders!` };
+  }
 }
