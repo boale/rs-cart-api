@@ -8,7 +8,6 @@ import {
         Post,
         HttpStatus,
 } from '@nestjs/common';
-import { headers } from '../constants';
 
 import { AppRequest } from '../shared';
 
@@ -27,7 +26,6 @@ export class OrderController {
 
         return {
             statusCode: HttpStatus.OK,
-            headers,
             message: 'OK',
             data: orders.map((order) => {
                 return {
@@ -57,7 +55,6 @@ export class OrderController {
         const order = orders.rows[0];
         return {
             statusCode: HttpStatus.OK,
-            headers,
             message: 'OK',
             data: {
                 id: order.id,
@@ -97,7 +94,6 @@ export class OrderController {
 
         return {
             statusCode: HttpStatus.OK,
-            headers,
             message: 'OK',
             data: {
                 order: createdOrder,
