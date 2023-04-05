@@ -59,7 +59,7 @@ export class OrderService {
     }
   }
 
-  async updateOrderStatus(data) {
+  async updateOrderStatus(orderId, data) {
     try {
       const order = this.getOrder(data.id);
 
@@ -68,7 +68,7 @@ export class OrderService {
       }
 
       dbClient = await createConnectionClient();
-      const updated = await dbClient.query(UPDATE_ORDER_STATUS_QUERY, [data.status, data.id]);
+      const updated = await dbClient.query(UPDATE_ORDER_STATUS_QUERY, [data.status, orderId]);
       return { updated }
     } catch (err) {
         console.log('Error on service updateOrderStatus: ', err)

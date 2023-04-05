@@ -120,9 +120,9 @@ export class OrderController {
     }
 
     @Put('order/:id/status')
-    async updateOrder(@Body() body) {
+    async updateOrder(@Req() req, @Body() body) {
         try {
-            await this.orderService.updateOrderStatus(body)
+            await this.orderService.updateOrderStatus(req.params.id, body)
             return {
                 statusCode: HttpStatus.OK,
                 message: 'OK',
