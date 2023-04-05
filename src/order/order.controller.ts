@@ -18,17 +18,16 @@ import { OrderService } from './services';
 export class OrderController {
     constructor(private orderService: OrderService) {}
 
-    // @UseGuards(JwtAuthGuard)
-    // @UseGuards(BasicAuthGuard)
-    @Get(':userId')
-    async getOrders(@Req() req: AppRequest) {
-        const orders = await this.orderService.getOrders(req.params.userId);
+    @Get('order/:id')
+    async getOrderById(@Req() req: AppRequest) {
+        try {
+            const orders = await this.orderService.getOrder(req.params.id);
 
-        return {
-            statusCode: HttpStatus.OK,
-            message: 'OK',
-            data: orders.map((order) => {
-                return {
+            const order = orders.rows[0];
+            return {
+                statusCode: HttpStatus.OK,
+                message: 'OK',
+                data: {
                     id: order.id,
                     cart_id: order.cart_id,
                     address: {
@@ -43,83 +42,112 @@ export class OrderController {
                         timestamp: 1,
                         comment: 'lalala'
                     }],
-                }
-            })
-        };
-    }
-
-    @Get('order/:id')
-    async getOrderById(@Req() req: AppRequest) {
-        const orders = await this.orderService.findById(req.params.id);
-
-        const order = orders.rows[0];
-        return {
-            statusCode: HttpStatus.OK,
-            message: 'OK',
-            data: {
-                id: order.id,
-                cart_id: order.cart_id,
-                address: {
-                    firstName: order.delivery.firstName,
-                    lastName: order.delivery.lastName,
-                    address: order.delivery.address,
-                    comment:order.comment,
                 },
-                items: order.items,
-                statusHistory: [{
-                    status: order.status,
-                    timestamp: 1,
-                    comment: 'lalala'
-                }],
-            },
-        };
+            };
+        } catch (err) {
+            console.log('Error on controller getOrderById: ', err)
+            return {
+                err
+            }
+        }
     }
-    //
-    // @UseGuards(JwtAuthGuard)
-    // @UseGuards(BasicAuthGuard)
+
+    @Get(':userId')
+    async getOrders(@Req() req: AppRequest) {
+        try {
+            const orders = await this.orderService.getOrders(req.params.userId);
+
+            return {
+                statusCode: HttpStatus.OK,
+                message: 'OK',
+                data: orders.map((order) => {
+                    return {
+                        id: order.id,
+                        cart_id: order.cart_id,
+                        address: {
+                            firstName: order.delivery.firstName,
+                            lastName: order.delivery.lastName,
+                            address: order.delivery.address,
+                            comment:order.comment,
+                        },
+                        items: order.items,
+                        statusHistory: [{
+                            status: order.status,
+                            timestamp: 1,
+                            comment: 'lalala'
+                        }],
+                    }
+                })
+            };
+        } catch (err) {
+            console.log('Error on controller getOrders: ', err)
+            return {
+                err
+            }
+        }
+
+    }
+
     @Post(':userId')
     async submitOrder(@Req() req: AppRequest, @Body() body) {
-        const order = {
-            user_id: req.params.userId,
-            cart_id: body.cart_id,
-            payment: { pay: '0' },
-            delivery: { ...body.address },
-            comments: body.address.comment,
-            status: 'ORDERED',
-            total: 0,
-            items: JSON.stringify(body.items),
-        };
+        try {
+            const order = {
+                user_id: req.params.userId,
+                cart_id: body.cart_id,
+                payment: { pay: '0' },
+                delivery: { ...body.address },
+                comments: body.address.comment,
+                status: 'ORDERED',
+                total: 0,
+                items: JSON.stringify(body.items),
+            };
 
-        const createdOrder = await this.orderService.create(order);
+            const createdOrder = await this.orderService.createOrder(order);
 
-        return {
-            statusCode: HttpStatus.OK,
-            message: 'OK',
-            data: {
-                order: createdOrder,
-            },
-        };
+            return {
+                statusCode: HttpStatus.OK,
+                message: 'OK',
+                data: {
+                    order: createdOrder,
+                },
+            };
+        } catch (err) {
+            console.log('Error on controller submitOrder: ', err)
+            return {
+                err
+            }
+        }
     }
-    //
-    // @Put(':id/status')
-    // async updateOrderStatus(@Req() req: AppRequest, @Body() body) {
-    //     // TODO: validate body payload...
-    //     console.log('updateOrderStatus', body);
-    //     return {
-    //         statusCode: HttpStatus.OK,
-    //         message: 'OK',
-    //     };
-    // }
-    //
-    // // @UseGuards(JwtAuthGuard)
-    // // @UseGuards(BasicAuthGuard)
-    // @Delete(':id')
-    // async deleteOrder(@Req() req: AppRequest) {
-    //     await this.orderService.deleteOrder(req.params.id);
-    //
-    //     return {
-    //         statusCode: HttpStatus.OK,
-    //         message: 'OK',
-    //     };
-    // }
-}
+
+    @Put('order/:id/status')
+    async updateOrder(@Body() body) {
+        try {
+            await this.orderService.updateOrderStatus(body)
+            return {
+                statusCode: HttpStatus.OK,
+                message: 'OK',
+            };
+        } catch (err) {
+            console.log('Error on controller updateOrder: ', err)
+            return {
+                err
+            }
+        }
+    }
+
+    @Delete('delete/:id')
+    async deleteOrder(@Req() req: AppRequest) {
+        try {
+            await this.orderService.removeOrder(req.params.id);
+            return {
+                statusCode: HttpStatus.OK,
+                message: 'OK',
+            };
+        } catch (err) {
+            console.log('Error on controller deleteOrder: ', err)
+            return {
+                err
+            }
+        }
+    }
+};
