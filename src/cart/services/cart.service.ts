@@ -8,7 +8,7 @@ import {
   CREATE_PRODUCT_IN_CART_QUERY, DELETE_CART_ITEM_QUERY,
   GET_CART_ITEM_BY_PRODUCT_ID_QUERY,
   GET_CART_ITEMS_LIST_QUERY,
-  GET_CART_LIST_QUERY,
+  GET_CART_LIST_QUERY, GET_USER_QUERY,
   UPDATE_COUNT_CART_BY_ID_QUERY
 } from "../../db/db-queries";
 
@@ -81,7 +81,7 @@ export class CartService {
     } catch (err) {
       console.log('error on removing cart by product id: ', err);
       return {
-        myError: err,
+        Error: err,
       };
     }
   }
@@ -102,7 +102,7 @@ export class CartService {
     } catch (err) {
       console.log('error on getting cart by id: ', err);
       return {
-        myError: err,
+        Error: err,
       };
     }
   }

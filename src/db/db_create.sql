@@ -25,3 +25,15 @@ insert into cart_items (cart_id, product_id, count) values
 ('22caad52-01b4-4cae-9bde-ef2d025db2df', 'feec18df-bdd8-4e2a-903c-5a8e9597841d', 5)
 
 delete from cart_items where product_id = '0dfc7add-e4ca-42db-88ac-45843b5ad028'
+
+ CREATE TABLE IF NOT EXISTS orders (
+	id uuid default uuid_generate_v4(),
+	user_id uuid,
+	cart_id uuid,
+	payment json,
+	delivery json,
+	comments text,
+  	status status_enum,
+  	total integer,
+    foreign key ("cart_id") references "carts" ("id")
+)

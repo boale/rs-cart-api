@@ -3,6 +3,10 @@ import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
 
 import { User } from '../models';
+import { createConnectionClient } from "../../db/db_client";
+import { GET_USER_QUERY } from "../../db/db-queries";
+
+let dbClient;
 
 @Injectable()
 export class UsersService {
@@ -25,4 +29,17 @@ export class UsersService {
     return newUser;
   }
 
+  async getUsers() {
+    try {
+      dbClient = await createConnectionClient();
+      const result = await dbClient.query(GET_USER_QUERY);
+
+      return result;
+    } catch (err) {
+      console.log('error on getting users: ', err);
+      return {
+        Error: err,
+      };
+    }
+  }
 }
