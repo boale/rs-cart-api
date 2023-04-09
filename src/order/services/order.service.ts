@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { v4 } from 'uuid';
-
 import { Order } from '../models';
+import { runQuery } from 'src/utils';
+import { CREATE_ORDER_QUERY } from '../query';
 
 @Injectable()
 export class OrderService {
@@ -11,17 +11,31 @@ export class OrderService {
     return this.orders[ orderId ];
   }
 
-  create(data: any) {
-    const id = v4(v4())
-    const order = {
-      ...data,
-      id,
-      status: 'inProgress',
+  create(order: Order) {
+    const {
+      userId,
+      cartId,
+      delivery,
+      payment,
+      status,
+      comments,
+    } = order;
+
+    const createdOrder = runQuery(
+      CREATE_ORDER_QUERY, [
+        userId,
+        cartId,
+        delivery,
+        payment,
+        comments,
+        status,
+      ]
+    );
+
+    return {
+      success: true,
+      order: createdOrder,
     };
-
-    this.orders[ id ] = order;
-
-    return order;
   }
 
   update(orderId, data) {

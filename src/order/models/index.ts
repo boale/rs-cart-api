@@ -16,5 +16,4 @@ export type Order = {
   },
   comments: string,
   status: string;
-  total: number;
 }

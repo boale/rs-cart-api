@@ -1,5 +1,6 @@
 import { Controller, Get, Request, Post, UseGuards, HttpStatus } from '@nestjs/common';
 import { LocalAuthGuard, AuthService, JwtAuthGuard, BasicAuthGuard } from './auth';
+import { DEFAULT_HEADERS } from './constants';
 
 @Controller()
 export class AppController {
@@ -34,6 +35,9 @@ export class AppController {
     return {
       statusCode: HttpStatus.OK,
       message: 'OK',
+      headers: {
+        ...DEFAULT_HEADERS,
+      },
       data: {
         user: req.user,
       },

@@ -22,14 +22,11 @@ export class AuthService {
   }
 
   login(user: User, type) {
-    const LOGIN_MAP = {
-      jwt: this.loginJWT,
-      basic: this.loginBasic,
-      default: this.loginJWT,
+    if (type === 'jwt') {
+      return this.loginJWT(user);
     }
-    const login = LOGIN_MAP[ type ]
 
-    return login ? login(user) : LOGIN_MAP.default(user);
+    return this.loginBasic(user);
   }
 
   loginJWT(user: User) {
