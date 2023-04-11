@@ -1,0 +1,28 @@
+create type cart_status as enum ('OPEN', 'ORDERED')
+
+CREATE TABLE carts (
+  id uuid default uuid_generate_v4() PRIMARY KEY,
+  user_id uuid default uuid_generate_v4() NOT NULL,
+  created_at date NOT NULL,
+  updated_at date NOT NULL,
+  status cart_status 
+);
+
+CREATE TABLE cart_items (
+  cart_id uuid REFERENCES carts(id),
+  product_id uuid default uuid_generate_v4(),
+  count integer
+);
+
+INSERT INTO carts (id, user_id, created_at, updated_at, status)
+VALUES
+  ('aaaa1111-1111-1111-1111-111111111111', 'bbbb2222-2222-2222-2222-222222222222', '2023-03-18', '2023-03-18', 'OPEN'),
+  ('cccc3333-3333-3333-3333-333333333333', 'dddd4444-4444-4444-4444-444444444444', '2023-03-17', '2023-03-18', 'OPEN');
+
+
+INSERT INTO cart_items (cart_id, product_id, count)
+VALUES
+  ('aaaa1111-1111-1111-1111-111111111111', 'eeee5555-5555-5555-5555-555555555555', 2),
+  ('aaaa1111-1111-1111-1111-111111111111', 'ffff6666-6666-6666-6666-666666666666', 1),
+  ('cccc3333-3333-3333-3333-333333333333', '10da2aa1-87ec-4dbb-afa4-2fc5ea7060ed', 3),
+  ('cccc3333-3333-3333-3333-333333333333', 'f872ce28-b33f-467c-bc7a-fe1eadcc1613', 2);
