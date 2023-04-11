@@ -14,11 +14,7 @@ const options = {
   connectionTimeoutMillis: 50000,
 };
 
-<<<<<<< HEAD
 let pool: Pool;
-=======
-let pool;
->>>>>>> b36f728309326e1cdd7f83819a4334e4b39ed73d
 if (!pool) {
   pool = new Pool(options);
 }
