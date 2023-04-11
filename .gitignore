@@ -1,6 +1,7 @@
 # compiled output
 /dist
 /node_modules
+.env
 
 # Logs
 logs
@@ -36,3 +37,5 @@ lerna-debug.log*
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+.serverless/*

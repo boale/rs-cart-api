@@ -1,0 +1,43 @@
+service: cart-service
+frameworkVersion: '3'
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+useDotenv: true
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: us-east-1
+  environment:
+    DB_HOST: ${env:DB_HOST}
+    DB_PORT: ${env:DB_PORT}
+    DB_USERNAME: ${env:DB_USERNAME}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${env:DB_NAME}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "lambda:InvokeFunction"
+      Resource: "*"
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+          cors: true
+      - http:
+          method: ANY
+          path: '{proxy+}'
+          cors: true
+custom:
+  serverless_offline:
+    allowCache: true
+    noTimeout: true
+    httpPort: 3000
+    lambdaPort: 3002
+    noPrependStageInUrl: true
+    

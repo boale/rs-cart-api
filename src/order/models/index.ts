@@ -2,9 +2,13 @@ import { CartItem } from '../../cart/models';
 
 export type Order = {
   id?: string,
-  userId: string;
-  cartId: string;
-  items: CartItem[]
+  user: {
+    id: string
+  };
+  cart: {
+    id: string;
+    items: CartItem[]
+  }
   payment: {
     type: string,
     address?: any,
