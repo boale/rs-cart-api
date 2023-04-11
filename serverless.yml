@@ -1,0 +1,40 @@
+service: rs-cart-api-service
+
+useDotenv: true
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-plugin-typescript
+  - serverless-plugin-optimize
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  lambdaHashingVersion: '20201221'
+  memorySize: 1024
+  timeout: 100
+
+functions:
+  main:
+    handler: src/lambda.handler
+    events:
+      - http:
+          method: GET
+          path: /api/profile
+      - http:
+          method: POST
+          path: /api/auth/login
+      - http:
+          method: GET
+          path: /api/profile/cart
+      - http:
+          method: PUT
+          path: /api/profile/cart
+      - http:
+          method: DELETE
+          path: /api/profile/cart
+      - http:
+          method: POST
+          path: /api/profile/cart/checkout

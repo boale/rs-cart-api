@@ -1,0 +1,26 @@
+{
+    "name": "@types/passport-local",
+    "version": "1.0.33",
+    "description": "TypeScript definitions for passport-local",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Maxime LUCE",
+            "url": "https://github.com/SomaticIT",
+            "githubUsername": "SomaticIT"
+        }
+    ],
+    "main": "",
+    "repository": {
+        "type": "git",
+        "url": "https://www.github.com/DefinitelyTyped/DefinitelyTyped.git"
+    },
+    "scripts": {},
+    "dependencies": {
+        "@types/passport-strategy": "*",
+        "@types/express": "*",
+        "@types/passport": "*"
+    },
+    "typesPublisherContentHash": "2e1926048cefa00a2a747fe5fcb5aa9ad1918354581c3d6e0a73c16f1480f703",
+    "typeScriptVersion": "2.3"
+}
