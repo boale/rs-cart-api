@@ -1,0 +1,30 @@
+service: ts-cart-api
+frameworkVersion: '3'
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: eu-west-1
+  profile: personal-user
+  stage: dev
+
+
+
+# you can define service wide environment variables here
+  environment:
+    PRODUCTS_TABLE: "${env:realgvard}"
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
