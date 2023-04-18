@@ -1,21 +1,39 @@
 import { NestFactory } from '@nestjs/core';
-
-import * as helmet from 'helmet';
-
+import serverlessExpress from '@vendia/serverless-express';
+import { Callback, Context, Handler } from 'aws-lambda';
 import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-const port = process.env.PORT || 4000;
+let server: Handler;
 
-async function bootstrap() {
+async function bootstrap(): Promise<Handler> {
   const app = await NestFactory.create(AppModule);
-
   app.enableCors({
-    origin: (req, callback) => callback(null, true),
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
   });
-  app.use(helmet());
+  await app.init();
 
-  await app.listen(port);
+  const config = new DocumentBuilder()
+    .setTitle('CloudX Databases')
+    .setDescription('The CloudX databases api documentation')
+    .setVersion('1.0')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('swagger', app, document);
+
+  const expressApp = app.getHttpAdapter().getInstance();
+
+  return serverlessExpress({ app: expressApp });
 }
-bootstrap().then(() => {
-  console.log('App is running on %s port', port);
-});
+
+export const cartRoot: Handler = async (
+  event: any,
+  context: Context,
+  callback: Callback,
+) => {
+  server = server ?? (await bootstrap());
+  return server(event, context, callback);
+};
