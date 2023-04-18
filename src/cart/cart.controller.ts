@@ -6,6 +6,7 @@ import { AppRequest, getUserIdFromRequest } from '../shared';
 
 import { calculateCartTotal } from './models-rules';
 import { CartService } from './services';
+import { lookup } from "../db/client";
 
 @Controller('api/profile/cart')
 export class CartController {
@@ -17,13 +18,27 @@ export class CartController {
   // @UseGuards(JwtAuthGuard)
   // @UseGuards(BasicAuthGuard)
   @Get()
-  findUserCart(@Req() req: AppRequest) {
-    const cart = this.cartService.findOrCreateByUserId(getUserIdFromRequest(req));
+  async findUserCart(@Req() req: AppRequest) {
+    const userId = req.query.userId;
+
+    if (userId) {
+      const cart = await lookup(`SELECT * FROM carts where id = '${userId}'`);
+      const cart_items = await lookup(`SELECT * FROM cart_items where cart_id = '${userId}'`);
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'OK',
+        data: { cart: cart.rows[0], cart_items: cart_items.rows },
+      }
+    }
+
+    const cart = await lookup(`SELECT * FROM carts`);
+    const cart_items = await lookup(`SELECT * FROM cart_items`);
 
     return {
       statusCode: HttpStatus.OK,
       message: 'OK',
-      data: { cart, total: calculateCartTotal(cart) },
+      data: { cart: cart.rows, cart_items: cart_items.rows },
     }
   }
 

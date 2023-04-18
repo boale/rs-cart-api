@@ -1,0 +1,36 @@
+service: ts-cart-api
+frameworkVersion: '3'
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: eu-west-1
+  profile: personal-user
+  stage: dev
+
+
+
+  # you can define service wide environment variables here
+  environment:
+    DATABASE_HOST: "${env:DATABASE_HOST}"
+    DATABASE_PORT: "${env:DATABASE_PORT}"
+    DATABASE_USERNAME: "${env:DATABASE_USERNAME}"
+    DATABASE_PASSWORD: "${env:DATABASE_PASSWORD}"
+    DATABASE_NAME: "${env:DATABASE_NAME}"
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
