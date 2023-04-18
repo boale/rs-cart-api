@@ -5,6 +5,8 @@ plugins:
   - serverless-offline
   - serverless-dotenv-plugin
 
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs16.x
@@ -14,9 +16,13 @@ provider:
 
 
 
-# you can define service wide environment variables here
+  # you can define service wide environment variables here
   environment:
-    PRODUCTS_TABLE: "${env:realgvard}"
+    DATABASE_HOST: "${env:DATABASE_HOST}"
+    DATABASE_PORT: "${env:DATABASE_PORT}"
+    DATABASE_USERNAME: "${env:DATABASE_USERNAME}"
+    DATABASE_PASSWORD: "${env:DATABASE_PASSWORD}"
+    DATABASE_NAME: "${env:DATABASE_NAME}"
 
 functions:
   main:
