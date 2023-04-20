@@ -15,3 +15,22 @@ create table IF NOT EXISTS cart_items (
 alter table cart_items
 add column cart_id uuid
 REFERENCES carts(id)
+
+create table users (
+	id uuid primary key default uuid_generate_v4(),
+	name text not null,
+	email text,
+	password text
+)
+
+create table orders (
+	id uuid primary key default uuid_generate_v4(),
+	user_id uuid not null,
+	cart_id uuid not null,
+	payment json,
+	delivery json,
+	comments text,
+	status text,
+	total integer,
+	foreign key ("cart_id") references "carts" ("id")
+)
