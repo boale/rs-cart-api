@@ -6,6 +6,8 @@ plugins:
   - serverless-dotenv-plugin
   - serverless-offline
 
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs16.x
@@ -13,31 +15,16 @@ provider:
   stage: dev
   profile: default
   environment:
-    ENV_STAGE: ${self:provider.stage}
-  iam:
-    role:
-      statements:
-        - Effect: 'Allow'
-          Action:
-            - 'ec2:CreateNetworkInterface'
-            - 'ec2:DescribeNetworkInterfaces'
-            - 'ec2:DeleteNetworkInterface'
-            - 'ec2:AssignPrivateIpAddresses'
-            - 'ec2:UnassignPrivateIpAddresses'
-          Resource: '*'
+      DATABASE_HOST: "${env:DATABASE_HOST}"
+      DATABASE_PORT: "${env:DATABASE_PORT}"
+      DATABASE_USERNAME: "${env:DATABASE_USERNAME}"
+      DATABASE_PASSWORD: "${env:DATABASE_PASSWORD}"
+      DATABASE_NAME: "${env:DATABASE_NAME}"
 
 functions:
   main:
-    handler: cart-service.handler
+    handler: dist/main.handler
     events:
       - http:
           method: any
-          path: /cart-service
-
-package:
-  patterns:
-    - '!**'
-    - 'node_modules/@nestjs/**'
-    - 'node_modules/pg/**'
-    - 'cart-service.js'
-    - 'package.json'
+          path: '{proxy+}'
