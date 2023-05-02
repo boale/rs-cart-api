@@ -1,5 +1,4 @@
-service: cart-service-service
-
+service: cart-service
 frameworkVersion: '3'
 
 plugins:
