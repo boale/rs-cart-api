@@ -36,3 +36,8 @@ lerna-debug.log*
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+.serverless
+cart-service.js
+.env
+.env.test

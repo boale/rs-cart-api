@@ -1,0 +1,43 @@
+service: cart-service-service
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: eu-west-1
+  stage: dev
+  profile: default
+  environment:
+    ENV_STAGE: ${self:provider.stage}
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 'ec2:CreateNetworkInterface'
+            - 'ec2:DescribeNetworkInterfaces'
+            - 'ec2:DeleteNetworkInterface'
+            - 'ec2:AssignPrivateIpAddresses'
+            - 'ec2:UnassignPrivateIpAddresses'
+          Resource: '*'
+
+functions:
+  main:
+    handler: cart-service.handler
+    events:
+      - http:
+          method: any
+          path: /cart-service
+
+package:
+  patterns:
+    - '!**'
+    - 'node_modules/@nestjs/**'
+    - 'node_modules/pg/**'
+    - 'cart-service.js'
+    - 'package.json'
