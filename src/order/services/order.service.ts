@@ -1,25 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { v4 } from 'uuid';
-
-import { Order } from '../models';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { v4 as uuidv4 } from 'uuid';
+import { Order } from 'src/database/entities';
 
 @Injectable()
 export class OrderService {
-  private orders: Record<string, Order> = {}
+  constructor(
+    @InjectRepository(Order)
+    private readonly orders: Repository<Order>,
+  ) {}
 
   findById(orderId: string): Order {
-    return this.orders[ orderId ];
+    return this.orders[orderId];
   }
 
   create(data: any) {
-    const id = v4(v4())
+    const id = uuidv4();
     const order = {
       ...data,
       id,
       status: 'inProgress',
     };
 
-    this.orders[ id ] = order;
+    this.orders[id] = order;
 
     return order;
   }
@@ -31,9 +35,9 @@ export class OrderService {
       throw new Error('Order does not exist.');
     }
 
-    this.orders[ orderId ] = {
+    this.orders[orderId] = {
       ...data,
       id: orderId,
-    }
+    };
   }
 }
