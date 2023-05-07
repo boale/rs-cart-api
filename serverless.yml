@@ -1,0 +1,28 @@
+service: cart-service
+frameworkVersion: '3'
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  stage: dev
+  environment:
+      DATABASE_HOST: "${env:DATABASE_HOST}"
+      DATABASE_PORT: "${env:DATABASE_PORT}"
+      DATABASE_USERNAME: "${env:DATABASE_USERNAME}"
+      DATABASE_PASSWORD: "${env:DATABASE_PASSWORD}"
+      DATABASE_NAME: "${env:DATABASE_NAME}"
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: any
+          path: /cart-service
