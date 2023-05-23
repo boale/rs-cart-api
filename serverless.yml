@@ -1,0 +1,31 @@
+service: cart-service-nestjs
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: us-east-1
+  profile: denis-kravchenko
+  deploymentMethod: direct
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: "./webpack.config.js"
+    includeModules: true
+    keepOutputDirectory: true
+
+functions:
+  CartLambda:
+    handler: src/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+          cors: true
+      - http:
+          method: ANY
+          path: '{proxy+}'
+          cors: true
