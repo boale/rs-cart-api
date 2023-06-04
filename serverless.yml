@@ -1,0 +1,23 @@
+service: cart-service
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: eu-central-1
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+    environment:
+      DB_HOST: rds-cloudx-tarik.czk7ppdubmsk.eu-central-1.rds.amazonaws.com
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: tarikceylan
+      POSTGRES_PASSWORD: tarik1234
+      POSTGRES_DB: rds_cloudx_db
