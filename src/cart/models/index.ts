@@ -7,11 +7,11 @@ export type Product = {
 
 
 export type CartItem = {
-  product: Product,
+  product_id: string,
   count: number,
 }
 
-export type Cart = {
+export type  Cart = {
   id: string,
   items: CartItem[],
 }

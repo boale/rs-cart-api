@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { v4 } from 'uuid';
-
 import { User } from '../models';
+import { Client } from 'pg';
+import { dbOptions } from '../../shared';
 
 @Injectable()
 export class UsersService {
@@ -12,17 +12,45 @@ export class UsersService {
     this.users = {}
   }
 
-  findOne(userId: string): User {
-    return this.users[ userId ];
+  async findOne(userId: string, conn?:Client): Promise<User> {
+    let client = conn;
+    if (!conn) {
+      client = new Client(dbOptions);
+      await client.connect();
+    }
+
+    try {
+      if (!userId) return null;
+      const user = await client.query(
+        'select * from users where id = $1;',
+        [userId],
+      );
+
+      if (!user.rows.length) {
+        return null;
+      }
+
+      return user.rows[0]
+    } catch (e) {
+      console.log(e);
+      throw e;
+    } finally {
+      if(!conn) {
+        await client.end();
+      }
+    }
   }
 
-  createOne({ name, password }: User): User {
-    const id = v4(v4());
-    const newUser = { id: name || id, name, password };
+  async createOne({ name, password }: User): Promise<User> {
+    const client = new Client(dbOptions);
+    await client.connect();
 
-    this.users[ id ] = newUser;
+    const user = await client.query(
+      'insert into users (name, password) values ($1,$2) returning *;',
+      [name, password],
+    );
 
-    return newUser;
+    return user.rows[0];
   }
 
 }

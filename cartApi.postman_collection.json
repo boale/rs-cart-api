@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "e49dbd21-2a42-4b1a-8f1b-3b0ad0a253dd",
+		"name": "cartApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3000/dev/api/profile/cart",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://miautw4j04.execute-api.eu-west-1.amazonaws.com/dev/api/profile/cart?userId=a9a8e63f-9300-4af8-8377-d99db370eebe",
+					"protocol": "https",
+					"host": [
+						"miautw4j04",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"profile",
+						"cart"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "a9a8e63f-9300-4af8-8377-d99db370eebe"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/dev/api/profile/cart",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a9a8e63f-9300-4af8-8377-d99db370eebe\",\r\n    \"items\": [\r\n        {\"product_id\": \"aa43d886-40dd-43ba-8e34-db3ffb1f1389\", \"count\": 1}\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://miautw4j04.execute-api.eu-west-1.amazonaws.com/dev/api/profile/cart",
+					"protocol": "https",
+					"host": [
+						"miautw4j04",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"profile",
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/dev/api/profile/cart/checkout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a9a8e63f-9300-4af8-8377-d99db370eebe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://miautw4j04.execute-api.eu-west-1.amazonaws.com/dev/api/profile/cart/checkout",
+					"protocol": "https",
+					"host": [
+						"miautw4j04",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"profile",
+						"cart",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/dev/api/profile/cart?userId=a9a8e63f-9300-4af8-8377-d99db370eebe",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://miautw4j04.execute-api.eu-west-1.amazonaws.com/dev/api/profile/cart?userId=a9a8e63f-9300-4af8-8377-d99db370eebe",
+					"protocol": "https",
+					"host": [
+						"miautw4j04",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"profile",
+						"cart"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "a9a8e63f-9300-4af8-8377-d99db370eebe"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
