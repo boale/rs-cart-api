@@ -7,14 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { OrderModule } from './order/order.module';
 
 @Module({
-  imports: [
-    AuthModule,
-    CartModule,
-    OrderModule,
-  ],
-  controllers: [
-    AppController,
-  ],
+  imports: [AuthModule, CartModule, OrderModule],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {}
