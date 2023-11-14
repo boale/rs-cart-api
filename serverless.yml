@@ -2,17 +2,19 @@ app: cart-service
 service: cart-service
 frameworkVersion: '3'
 
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
 provider:
   name: aws
   runtime: nodejs18.x
   region: eu-north-1
   stage: dev
-  memorySize: 1024
-
-
+  environment:
+    DATABASE_URL: ${env:DATABASE_URL}
   httpApi:
     cors: true
-
 
 functions:
   main:
@@ -26,8 +28,6 @@ functions:
           path: '{proxy+}'
 
 
-plugins:
-  - serverless-offline
 
 
 
