@@ -12,13 +12,13 @@ provider:
   region: eu-north-1
   stage: dev
   environment:
-    DATABASE_URL: ${env:DATABASE_URL}
+    DATABASE_URL: ${env.DATABASE_URL}
   httpApi:
     cors: true
 
 functions:
   main:
-    handler: dist/main.handler
+    handler: dist/serverless.handler
     events:
       - http:
           method: ANY
