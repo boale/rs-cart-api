@@ -1,0 +1,33 @@
+app: cart-service
+service: cart-service
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-north-1
+  stage: dev
+  memorySize: 1024
+
+
+  httpApi:
+    cors: true
+
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
+
+
+plugins:
+  - serverless-offline
+
+
+
