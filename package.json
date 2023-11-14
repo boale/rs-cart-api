@@ -22,8 +22,8 @@
     "prisma:push": "npx prisma db push",
     "migrate": "npx prisma migrate dev",
     "serverless:offline": "serverless offline",
-    "deploy": "npm run webpack:build && sls deploy --verbose --stage prod",
-    "serverless:remove": "sls remove --param=mode='production'"
+    "deploy": "npm run webpack:build && sls deploy --verbose",
+    "serverless:remove": "sls remove"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
