@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "webpack:build": "nest build --webpack ",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -21,7 +22,7 @@
     "prisma:push": "npx prisma db push",
     "migrate": "npx prisma migrate dev",
     "serverless:offline": "serverless offline",
-    "deploy": "npm run build && sls deploy --verbose --stage prod",
+    "deploy": "npm run webpack:build && sls deploy --verbose --stage prod",
     "serverless:remove": "sls remove --param=mode='production'"
   },
   "dependencies": {
@@ -39,6 +40,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "serverless-dotenv-plugin": "^6.0.0",
+    "terser-webpack-plugin": "^5.3.9",
     "typeorm": "^0.3.17",
     "uuid": "^9.0.1"
   },
