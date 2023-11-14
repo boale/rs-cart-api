@@ -1,21 +1,22 @@
 import { NestFactory } from '@nestjs/core';
-
-import * as helmet from 'helmet';
-
 import { AppModule } from './app.module';
-
-const port = process.env.PORT || 4000;
+import helmet from 'helmet';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  app.enableCors({
-    origin: (req, callback) => callback(null, true),
-  });
   app.use(helmet());
+  app.setGlobalPrefix('api');
 
-  await app.listen(port);
+  const config = new DocumentBuilder()
+    .setTitle('AWS Cart Service')
+    .setDescription('The AWS Cart Service Documentation')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('swagger', app, document);
+
+  await app.listen(3000);
 }
-bootstrap().then(() => {
-  console.log('App is running on %s port', port);
-});
+
+bootstrap();
