@@ -16,6 +16,10 @@ provider:
   httpApi:
     cors: true
 
+package:
+  exclude:
+    - node_modules/**
+
 functions:
   main:
     handler: dist/serverless.handler
