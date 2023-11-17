@@ -1,0 +1,19 @@
+#new modules will be installed in an image
+node_modules
+
+#dist will be created in an image
+dist
+
+#we don't need test in production build
+#but it's can be removed if it's needed to run tests in CI
+test
+
+#serverless files
+.serverless
+
+#these files are only for the development
+.eslintrc.js
+.gitignore
+.prettier
+Dockerfile
+README.md
