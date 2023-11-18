@@ -8,6 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
+    "build:deploy": "npm run build && sls deploy",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -27,13 +28,20 @@
     "@nestjs/jwt": "^7.2.0",
     "@nestjs/passport": "^7.1.0",
     "@nestjs/platform-express": "^7.5.1",
+    "@nestjs/typeorm": "^10.0.1",
+    "@types/pg": "^8.10.9",
+    "@vendia/serverless-express": "^4.10.4",
+    "aws-lambda": "^1.0.7",
     "helmet": "^4.2.0",
     "passport": "^0.4.1",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
+    "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.4",
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-prune-versions": "^1.0.4",
     "uuid": "^8.3.1"
   },
   "devDependencies": {

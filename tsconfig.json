@@ -8,8 +8,11 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2017",
     "sourceMap": true,
+    "lib": ["ES6"],
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
   }
 }

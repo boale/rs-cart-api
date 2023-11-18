@@ -1,0 +1,33 @@
+service: cart-service
+
+provider: 
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: eu-west-1
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-prune-versions
+
+custom:
+  prune:
+    automatic: true
+
+package:
+  exclude:
+    - ./**
+  include:
+    - dist/**
+    - node_modules/**
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http: 
+          path: /{proxy+}
+          method: any
+      - http: 
+          path: /
+          method: any
