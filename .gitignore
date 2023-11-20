@@ -1,6 +1,8 @@
 # compiled output
 /dist
 /node_modules
+.serverless
+.env
 
 # Logs
 logs

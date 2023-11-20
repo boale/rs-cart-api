@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'
+import { Client } from 'pg';
 
 import { v4 } from 'uuid';
 
 import { User } from '../models';
+import { dbConfig } from './../../database/db.config';
 
 @Injectable()
 export class UsersService {
@@ -12,17 +14,32 @@ export class UsersService {
     this.users = {}
   }
 
-  findOne(userId: string): User {
-    return this.users[ userId ];
+  async findOne(userId: string): Promise<User> {
+    const client = new Client(dbConfig);
+    await client.connect();
+
+    try {
+      const query = `select * from users where id='${userId}';`;
+      const { rows } = await client.query(query);
+      return rows as unknown as User;
+    } catch (error) {
+      console.error('Error DB request: ', error)
+    }
   }
 
-  createOne({ name, password }: User): User {
-    const id = v4(v4());
-    const newUser = { id: name || id, name, password };
+  async createOne({ name, email, password }: User): Promise<User> {
+    const client = new Client(dbConfig);
+    await client.connect();
 
-    this.users[ id ] = newUser;
+    try {
+      const query = `insert into users (name, email, password)
+        values ('${name}', '${email}', '${password}');`;
 
-    return newUser;
+      const created = await client.query(query);
+      return created as unknown as User;
+    } catch (error) {
+      console.error('Error DB request: ', error)
+    }
   }
 
 }
