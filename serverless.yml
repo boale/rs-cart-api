@@ -1,0 +1,36 @@
+service: aws-course-nest
+
+frameworkVersion: '3'
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ${env:REGION}
+  environment:
+    DB_HOST: ${env:DATABASE_HOST}
+    DB_PORT: ${env:DATABASE_PORT}
+    DB_NAME: ${env:DATABASE_NAME}
+    DB_USERNAME: ${env:DATABASE_USERNAME}
+    DB_PASSWORD: ${env:DATABASE_PASSWORD}
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          cors: true
+          method: ANY
+          path: /
+      - http:
+          cors: true
+          method: ANY
+          path: '{proxy+}'
+package:
+  individually: true
+  excludeDevDependencies: true
