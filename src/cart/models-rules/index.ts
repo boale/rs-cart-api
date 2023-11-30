@@ -1,21 +1,11 @@
-import { Inject } from '@nestjs/common';
-import { Cart, CartItem } from '../../database/entities';
-import { Product } from '../models';
+import { Cart, CartItem } from '../models';
 
 /**
  * @param {Cart} cart
  * @returns {number}
  */
-export async function calculateCartTotal(
-  cart: Cart,
-  products: Product[],
-): Promise<number> {
-  return cart
-    ? cart.cartItems.reduce((acc: number, cartItem: CartItem) => {
-        const product = products?.find(
-          product => product.id === cartItem.productId,
-        );
-        return (acc += product?.price ? +product.price : 0 * cartItem.count);
-      }, 0)
-    : 0;
+export function calculateCartTotal(cart: Cart): number {
+  return cart ? cart.items.reduce((acc: number, { product: { price }, count }: CartItem) => {
+    return acc += price * count;
+  }, 0) : 0;
 }
