@@ -14,7 +14,7 @@ export class CartService {
   private PG_PASSWORD = process.env.PG_PASSWORD;
   private dbOptions = {
     host: this.PG_HOST,
-    port: this.PG_PORT,
+    port: +this.PG_PORT,
     database: this.PG_DATABASE,
     user: this.PG_USERNAME,
     password: this.PG_PASSWORD,
