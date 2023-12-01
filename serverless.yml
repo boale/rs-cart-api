@@ -2,6 +2,9 @@ service: nest-api-module8
 
 plugins:
   - serverless-offline
+  - serverless-dotenv-plugin
+
+useDotenv: true
 
 provider:
   name: aws
@@ -19,3 +22,9 @@ functions:
       - http:
           method: ANY
           path: '{proxy+}'
+    environment:
+      HOST: ${env:HOST}
+      PORT: ${env:PORT}
+      DB_USERNAME: ${env:DB_USERNAME}
+      PASSWORD: ${env:PASSWORD}
+      DATABASE: ${env:DATABASE}
