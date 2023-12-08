@@ -1,0 +1,42 @@
+service: cart-api
+
+frameworkVersion: '3'
+
+useDotenv: true
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - rds:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: arn:aws:lambda:eu-west-1:003178017432:function:product-service-dev-getProductsById
+
+environment:
+  DATABASE_HOST: ${env:DATABASE_HOST}
+  DATABASE_PORT: ${env:DATABASE_PORT}
+  DATABASE_NAME: ${env:DATABASE_NAME}
+  DATABASE_USERNAME: ${env:DATABASE_USERNAME}
+  DATABASE_PASSWORD: ${env:DATABASE_PASSWORD}
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
