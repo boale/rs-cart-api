@@ -1,0 +1,43 @@
+service: cart-service
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: us-east-1
+  profile: iam-user1
+  stage: dev
+  environment:
+    DATABASE_URL: ${env:DATABASE_URL}
+
+custom:
+  webpack:
+    packagerOptions:
+      scripts:
+        - prisma generate
+        - find . -name "libquery_engine-*" -not -name "libquery_engine-rhel-openssl-*" | xargs rm
+
+functions:
+  main:
+    handler: dist/main.handler
+
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
+
+package:
+  patterns:
+    - '!node_modules/.prisma/client/libquery_engine-*'
+    - 'node_modules/.prisma/client/libquery_engine-linux-arm64-*'
+    - '!node_modules/prisma/libquery_engine-*'
+    - 'node_modules/.prisma/client/libquery_engine-rhel-openssl-1.0.x.so.node'
+    - '!node_modules/@prisma/engines/**'
