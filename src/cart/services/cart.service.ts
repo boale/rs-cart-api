@@ -1,31 +1,38 @@
 import { Injectable } from '@nestjs/common';
-
+import { InjectModel } from '@nestjs/sequelize'
 import { v4 } from 'uuid';
-
 import { Cart } from '../models';
 
 @Injectable()
 export class CartService {
-  private userCarts: Record<string, Cart> = {};
+  constructor(
+    @InjectModel(Cart)
+    private readonly userCarts: typeof Cart
+  ) {}
 
-  findByUserId(userId: string): Cart {
-    return this.userCarts[ userId ];
+  async findByUserId(userId: string) {
+    return await this.userCarts.findOne({
+      where: { user_id: userId }
+    })
   }
 
-  createByUserId(userId: string) {
+  async createByUserId(userId: string) {
     const id = v4(v4());
     const userCart = {
       id,
-      items: [],
-    };
+      user_id: userId,
+      status: 'OPEN'
+    }
 
-    this.userCarts[ userId ] = userCart;
+    const cart = await this.userCarts.create({
+      ...userCart
+    })
 
-    return userCart;
+    return await cart.save()
   }
 
-  findOrCreateByUserId(userId: string): Cart {
-    const userCart = this.findByUserId(userId);
+  async findOrCreateByUserId(userId: string) {
+    const userCart = await this.findByUserId(userId);
 
     if (userCart) {
       return userCart;
@@ -34,22 +41,19 @@ export class CartService {
     return this.createByUserId(userId);
   }
 
-  updateByUserId(userId: string, { items }: Cart): Cart {
-    const { id, ...rest } = this.findOrCreateByUserId(userId);
+  async updateByUserId(updatedCart: Cart) {
+    const cart = await this.findOrCreateByUserId(updatedCart.user_id);
 
-    const updatedCart = {
-      id,
-      ...rest,
-      items: [ ...items ],
-    }
+    cart.status = updatedCart.status
 
-    this.userCarts[ userId ] = { ...updatedCart };
-
-    return { ...updatedCart };
+    return await cart.save()
   }
 
-  removeByUserId(userId): void {
-    this.userCarts[ userId ] = null;
+  removeByUserId(userId) {
+    this.userCarts.destroy({
+      where: {
+        user_id: userId
+      }
+    })
   }
-
 }

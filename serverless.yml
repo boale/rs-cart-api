@@ -1,0 +1,29 @@
+service: nest-js-app
+
+plugins:
+  - serverless-offline
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  profile: admin
+  region: ap-northeast-1
+
+functions:
+  main:
+    handler: dist/main.handler
+    environment:
+      DB_HOST: ${env:DB_HOST}
+      DB_PORT: ${env:DB_PORT}
+      DB_NAME: ${env:DB_NAME}
+      DB_USERNAME: ${env:DB_USERNAME}
+      DB_PASS: ${env:DB_PASS}
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'

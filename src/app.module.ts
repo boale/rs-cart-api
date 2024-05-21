@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { SequelizeModule } from '@nestjs/sequelize'
 
 import { AppController } from './app.controller';
 
@@ -11,6 +12,16 @@ import { OrderModule } from './order/order.module';
     AuthModule,
     CartModule,
     OrderModule,
+    SequelizeModule.forRoot({
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
+      dialect: 'sqlite',
+      autoLoadModels: true,
+      synchronize: true,
+    })
   ],
   controllers: [
     AppController,
