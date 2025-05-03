@@ -1,63 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/services/users.service';
-import { User } from '../users/models';
-import { contentSecurityPolicy } from 'helmet';
+import { User } from '../entities/user.entity';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService
-  ) {}
+    private jwtService: JwtService,
+  ) {
+    this.logger.log(
+      'UsersService:',
+      this.usersService ? 'Injected' : 'Undefined',
+    );
+  }
 
-  validateUser(name: string, password: string): any {
-    const user = this.usersService.findOne(name);
-
-    if (user) {
+  async validateUser(email: string, pass: string): Promise<any> {
+    this.logger.log(`Validating user: ${email}`);
+    const user = await this.usersService.findOne(email);
+    if (user && user.password === pass) {
       return user;
     }
-
-    return this.usersService.createOne({ name, password })
+    return null;
   }
 
-  login(user: User, type) {
-    const LOGIN_MAP = {
-      jwt: this.loginJWT,
-      basic: this.loginBasic,
-      default: this.loginJWT,
+  async login(user: User): Promise<any> {
+    this.logger.log(
+      `Logging in user: ${user.email}, password: ${user.password}`,
+    );
+    function createToken(user: User) {
+      const { email, password } = user;
+      const buffer = Buffer.from([email, password].join(':'), 'utf8');
+
+      return buffer.toString('base64');
     }
-    const login = LOGIN_MAP[ type ]
-
-    return login ? login(user) : LOGIN_MAP.default(user);
-  }
-
-  loginJWT(user: User) {
-    const payload = { username: user.name, sub: user.id };
-
-    return {
-      token_type: 'Bearer',
-      access_token: this.jwtService.sign(payload),
-    };
-  }
-
-  loginBasic(user: User) {
-    // const payload = { username: user.name, sub: user.id };
-    console.log(user);
-
-    function encodeUserToken(user) {
-      const { id, name, password } = user;
-      const buf = Buffer.from([name, password].join(':'), 'utf8');
-
-      return buf.toString('base64');
-    }
-
     return {
       token_type: 'Basic',
-      access_token: encodeUserToken(user),
+      access_token: createToken(user),
     };
   }
 
-
-
+  async register(userData: Partial<User>): Promise<any> {
+    console.log('AuthService.register body:', userData); // Debug input
+    this.logger.log(`Registering user: ${userData.email}`);
+    const existingUser = await this.usersService.findOne(userData.email);
+    if (existingUser) {
+      throw new Error('User already exists');
+    }
+    const newUser = await this.usersService.createOne({
+      ...userData,
+      password: userData.password,
+    });
+    return this.login(newUser);
+  }
 }
